@@ -24,19 +24,19 @@ module Puppet::Parser::Functions
         # get parsed version of the config as a hash
         ipsets = JSON.parse(responseBodyDecoded)
         
-        fooReplaced = {}
+        ipsetsReplaced = {}
             
-        foo.each do |k, v| 
+        ipsets.each do |k, v| 
             # remove "ipsets." magic words from keys
             kReplaced = k.gsub("ipsets.", "")
             
             # replace commas with newlines in the values
             vReplaced = v.gsub(", ", "\n")
             
-            fooReplaced[kReplaced] = vReplaced
+            ipsetsReplaced[kReplaced] = vReplaced
         end
     
-        fooReplaced
+        ipsetsReplaced
 
     end
  end
