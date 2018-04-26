@@ -3,7 +3,7 @@ module Puppet::Parser::Functions
         
         url = args[0]
 
-        ipsets = get_ipsets_from_consul(url)
+        ipsets = function_get_ipsets_from_consul( [url] )
 
         ipset_definitions = {}
 
