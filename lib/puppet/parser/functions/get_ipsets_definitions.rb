@@ -9,7 +9,7 @@ module Puppet::Parser::Functions
 
         ipsets.each do |ipsetName, ips| 
             ipset_definitions[ipsetName] = {
-                "from_file" => "/opt/ipsets/#{ipsetName}",
+                "from_file" => "/opt/ipsets/#{ipsetName}.zone",
                 "ipset_type"=> "hash:net"
             }
         end 

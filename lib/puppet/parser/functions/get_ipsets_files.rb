@@ -8,7 +8,7 @@ module Puppet::Parser::Functions
         ipset_files = {}
 
         ipsets.each do |ipsetName, ips| 
-            ipset_files["/opt/ipsets/#{ipsetName}"] = {
+            ipset_files["/opt/ipsets/#{ipsetName}.zone"] = {
                 "ensure"    => "file",
                 "owner"     => "root",
                 "group"     => "root",
