@@ -1,5 +1,5 @@
 module Puppet::Parser::Functions
-    newfunction(:get_consul_ipsets) do |args|
+    newfunction(:get_ipsets_from_consul) do |args|
       
         require 'net/http'
         require 'json'
@@ -41,6 +41,7 @@ module Puppet::Parser::Functions
             fooReplaced
         end
         
+        # get url from args
         url = args[0]
             
         # get ipsets from consul
