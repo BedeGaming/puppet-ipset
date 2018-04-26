@@ -1,5 +1,5 @@
 module Puppet::Parser::Functions
-    newfunction(:get_ipsets_firewall_rules) do |args|
+    newfunction(:get_ipsets_firewall_rules, :type => :rvalue) do |args|
         
         url = args[0]
 

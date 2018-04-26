@@ -1,5 +1,5 @@
 module Puppet::Parser::Functions
-    newfunction(:get_ipsets_definitions) do |args|
+    newfunction(:get_ipsets_definitions, :type => :rvalue) do |args|
         
         url = args[0]
 

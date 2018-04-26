@@ -1,5 +1,5 @@
 module Puppet::Parser::Functions
-    newfunction(:get_ipsets_from_consul) do |args|
+    newfunction(:get_ipsets_from_consul, :type => :rvalue) do |args|
       
         require 'net/http'
         require 'json'
