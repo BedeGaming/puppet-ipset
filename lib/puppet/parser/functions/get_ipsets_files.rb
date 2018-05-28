@@ -1,9 +1,9 @@
 module Puppet::Parser::Functions
     newfunction(:get_ipsets_files, :type => :rvalue) do |args|
         
-        url = args[0]
+        ipsets = args[0]
 
-        ipsets = function_get_ipsets_from_consul( [url] )
+        #ipsets = function_get_ipsets_from_consul( [url] )
 
         ipset_files = {}
 
