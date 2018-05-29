@@ -33,7 +33,7 @@ def get_consul_ipsets(url)
         ipsetsReplaced[kReplaced] = vReplaced
     end
 
-    ipsetsReplaced
+    ipsetsReplaced.sort_by { |k, v| k }
 
 end
 
