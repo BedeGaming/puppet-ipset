@@ -3,8 +3,6 @@ module Puppet::Parser::Functions
         
         ipsets = args[0]
 
-        #ipsets = function_get_ipsets_from_consul( [url] )
-
         ipset_definitions = {}
 
         ipsets.each do |ipsetName, ips| 
