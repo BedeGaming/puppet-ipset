@@ -7,9 +7,9 @@ module Puppet::Parser::Functions
 
         ipsets.each do |ipsetName, ips| 
     
-            isItDrop = (ipsetName.end_with? "drop")
-        
-            ipset_firewall["#{isItDrop ? "888" : "777"} - #{ipsetName} Ipset"] = {
+            priority = ipsetName.split("_")[2]
+            
+            ipset_firewall["#{priority} - #{ipsetName} Ipset"] = {
                 "ipset" => "#{ipsetName} src",
                 "action"=> "accept"
             }

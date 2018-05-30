@@ -21,7 +21,7 @@ def get_consul_ipsets(url)
     # get parsed version of the config as a hash
     ipsets = JSON.parse(responseBodyDecoded)
     
-    ipsetsGroupedByRule = {}
+    ipsetsGroupedByRuleAndPriority = {}
     
     ipsets.each do |ipset_name, ipset_value| 
 
@@ -31,19 +31,19 @@ def get_consul_ipsets(url)
         ipset_value.each do |ip, details|  
 
             # construct the ipset name (e.g savagaming_accept or savagaming_drop)
-            ipset_name = nameReplaced + "_" + details["Rule"]
+            ipset_name = nameReplaced + "_" + details["Rule"] + "_" + details["Priority"]
 
-            unless ipsetsGroupedByRule[ipset_name]
-                ipsetsGroupedByRule[ipset_name] = []
+            unless ipsetsGroupedByRuleAndPriority[ipset_name]
+                ipsetsGroupedByRuleAndPriority[ipset_name] = []
             end
 
-            ipsetsGroupedByRule[ipset_name] << ip
+            ipsetsGroupedByRuleAndPriority[ipset_name] << ip
 
         end
 
     end
 
-    ipsetsGroupedByRule
+    ipsetsGroupedByRuleAndPriority
 
 end
 
