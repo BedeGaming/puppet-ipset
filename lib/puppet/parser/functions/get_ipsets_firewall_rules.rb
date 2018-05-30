@@ -6,11 +6,14 @@ module Puppet::Parser::Functions
         ipset_firewall = {}
 
         ipsets.each do |ipsetName, ips| 
-            ipset_firewall["888 - #{ipsetName} Ipset"] = {
+    
+            isItDrop = (ipsetName.end_with? "drop")
+        
+            ipset_firewall["#{isItDrop ? "888" : "777"} - #{ipsetName} Ipset"] = {
                 "ipset" => "#{ipsetName} src",
                 "action"=> "accept"
             }
-        end  
+        end 
 
         ipset_firewall
         
