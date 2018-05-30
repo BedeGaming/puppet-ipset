@@ -21,19 +21,29 @@ def get_consul_ipsets(url)
     # get parsed version of the config as a hash
     ipsets = JSON.parse(responseBodyDecoded)
     
-    ipsetsReplaced = {}
-        
-    ipsets.each do |k, v| 
+    ipsetsGroupedByRule = {}
+    
+    ipsets.each do |ipset_name, ipset_value| 
+
         # remove "ipsets." magic words from keys
-        kReplaced = k.gsub("ipsets.", "")
-        
-        # replace commas with newlines in the values
-        vReplaced = v.gsub(", ", "\n")
-        
-        ipsetsReplaced[kReplaced] = vReplaced
+        nameReplaced = ipset_name.gsub("ipsets.", "")
+               
+        ipset_value.each do |ip, details|  
+
+            # construct the ipset name (e.g savagaming_accept or savagaming_drop)
+            ipset_name = nameReplaced + "_" + details["Rule"]
+
+            unless ipsetsGroupedByRule[ipset_name]
+                ipsetsGroupedByRule[ipset_name] = []
+            end
+
+            ipsetsGroupedByRule[ipset_name] << ip
+
+        end
+
     end
 
-    ipsetsReplaced
+    ipsetsGroupedByRule
 
 end
 

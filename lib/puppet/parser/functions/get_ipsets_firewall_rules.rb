@@ -10,7 +10,7 @@ module Puppet::Parser::Functions
                 "ipset" => "#{ipsetName} src",
                 "action"=> "accept"
             }
-        end 
+        end  
 
         ipset_firewall
         
