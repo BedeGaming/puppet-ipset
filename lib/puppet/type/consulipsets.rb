@@ -1,6 +1,10 @@
 Puppet::Type.newtype(:consulipsets) do
     desc "Puppet type that retrieves ipsets from consul and applies them"
-  
+    
+    newparam(:name, :namevar => true) do
+        desc "Name"
+      end
+
     newparam(:url) do
         desc "Url for ipsets retrieval from Consul"
         defaultto "http://localhost:8500/v1/kv/config/bundle/ipsets"
