@@ -48,8 +48,8 @@ Puppet::Type.type(:consulipsets).provide(:main) do
     
     end
     
-    def consul_ipsets
-        get_consul_ipsets(resource[:consul_ipsets_url])
+    def ipsets
+        get_consul_ipsets(resource[:url])
     end
     
   end
