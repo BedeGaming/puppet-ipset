@@ -1,11 +1,8 @@
-Puppet::Type.type(:consulipsets).provide(:main) do
-    
-    require 'net/http'
-    require 'json'
-    require "base64"
-    
-    def get_consul_ipsets(url)
+module Puppet::Parser::Functions
+    newfunction(:get_ipsets_from_consul, :type => :rvalue) do |args|
         
+        url = args[0]
+
         uri = URI.parse(url)
         response = Net::HTTP.get_response(uri)
         
@@ -25,31 +22,26 @@ Puppet::Type.type(:consulipsets).provide(:main) do
         ipsetsGroupedByRuleAndPriority = {}
         
         ipsets.each do |ipset_name, ipset_value| 
-    
+
             # remove "ipsets." magic words from keys
             nameReplaced = ipset_name.gsub("ipsets.", "")
-                   
+                
             ipset_value.each do |ip, details|  
-    
+
                 # construct the ipset name (e.g savagaming_accept or savagaming_drop)
                 ipset_name = nameReplaced + "_" + details["Rule"] + "_" + details["Priority"]
-    
+
                 unless ipsetsGroupedByRuleAndPriority[ipset_name]
                     ipsetsGroupedByRuleAndPriority[ipset_name] = []
                 end
-    
+
                 ipsetsGroupedByRuleAndPriority[ipset_name] << ip
-    
+
             end
-    
+
         end
-    
+
         ipsetsGroupedByRuleAndPriority
-    
+
     end
-    
-    def ipsets
-        get_consul_ipsets(resource[:url])
-    end
-    
-  end
+ end
