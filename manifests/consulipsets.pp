@@ -1,4 +1,4 @@
-# Define: consulipset
+# Define: consulipsets
 #
 # Retrieve the ipsets from Consul
 # It relies on the config in Consul having a specific stucture
@@ -20,7 +20,7 @@ define ipset::consulipsets (
     $ipsets = get_ipsets_from_consul($consul_url)
 
     # get file resources out of the ipsest hash
-    $ipset_files = get_ipsets_files($ipsets.all)
+    $ipset_files = get_ipsets_files($ipsets)
 
     # create the ipset files
     create_resources('file', $ipset_files)
