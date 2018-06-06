@@ -13,7 +13,7 @@
 #  }
 #
 define ipset::consulipsets (
-  $consul_url = ""
+  $url = ""
 ) {
     include firewall
 
