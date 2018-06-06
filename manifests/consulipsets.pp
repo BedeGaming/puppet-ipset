@@ -15,7 +15,7 @@
 define ipset::consulipsets (
   $url = ""
 ) {
-    include firewall
+    #include firewall
 
     $ipsets = get_ipsets_from_consul($consul_url)
 
@@ -32,9 +32,9 @@ define ipset::consulipsets (
     create_resources('ipset', $ipset_definitions)
 
     # get firewall resources out of the ipsest hash
-    $ipset_firewall_rules = get_ipsets_firewall_rules($ipsets)
+    #$ipset_firewall_rules = get_ipsets_firewall_rules($ipsets)
     
     # create the iptables entries
-    create_resources('firewall', $ipset_firewall_rules)
+    #create_resources('firewall', $ipset_firewall_rules)
 
   }
