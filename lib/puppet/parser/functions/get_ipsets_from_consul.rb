@@ -1,6 +1,10 @@
 module Puppet::Parser::Functions
     newfunction(:get_ipsets_from_consul, :type => :rvalue) do |args|
         
+        require 'net/http'
+        require 'json'
+        require "base64"
+
         url = args[0]
 
         uri = URI.parse(url)
