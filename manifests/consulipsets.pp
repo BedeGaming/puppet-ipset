@@ -38,6 +38,3 @@ define ipset::consulipsets (
     create_resources('firewall', $ipset_firewall_rules)
 
   }
-
-}
-
