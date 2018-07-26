@@ -7,8 +7,8 @@ module Puppet::Parser::Functions
         
         # get config from args
         url = args[0]
-        defaultbundle = args[0]
-        rolebundle = args[0]
+        defaultbundle = args[1]
+        rolebundle = args[2]
         bulkdenyglobalbundleprefix = args[3]
         bulkdenyrolebundleprefix = args[4]
         bulkdenypriority = args[5]
