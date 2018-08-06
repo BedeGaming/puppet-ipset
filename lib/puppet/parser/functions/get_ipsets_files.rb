@@ -3,7 +3,14 @@ module Puppet::Parser::Functions
         
         ipsets = function_get_ipsets_from_consul( [args[0], args[1], args[2], args[3], args[4], args[5]] )
 
-        ipset_files = {}
+        ipset_files = { 
+            "/opt/ipsets" =>  {
+                "ensure"  => "directory",
+                "owner"   => "root",
+                "group"   => "root",
+                "mode"    => "0755"
+            }
+        }
 
         ipsets.each do |ipsetName, ips| 
             
@@ -12,7 +19,8 @@ module Puppet::Parser::Functions
                 "owner"     => "root",
                 "group"     => "root",
                 "mode"      => "0755",
-                "content"   => ips * "\n"
+                "content"   => ips * "\n",
+                "subscribe" => File["/opt/ipsets"],
             }
 
         end 
