@@ -58,7 +58,7 @@ module Puppet::Parser::Functions
             # return empty hash
             {}
         else
-            raise response.message
+            raise Puppet::ParseError, response.message
         end
 
     end
