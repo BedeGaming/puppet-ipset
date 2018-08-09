@@ -13,7 +13,7 @@ module Puppet::Parser::Functions
                 "group"     => "root",
                 "mode"      => "0755",
                 "content"   => ips * "\n",
-                "subscribe" => File["/opt/ipsets"],
+                "subscribe" => "File['/opt/ipsets']",
             }
 
         end 
