@@ -5,6 +5,10 @@ module Puppet::Parser::Functions
 
         ipset_files = {}
 
+        ipsets["/opt/ipsets"] = {
+            "ensure" => "directory",
+        }
+
         ipsets.each do |ipsetName, ips| 
             
             ipset_files["/opt/ipsets/#{ipsetName}.zone"] = {
