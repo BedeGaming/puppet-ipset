@@ -34,12 +34,17 @@ module Puppet::Parser::Functions
                 bulkdenyIpsets = JSON.parse(responseBodyDecoded)  
                 
                 bulkdenyIpsets.each do |ipset_name, ips|
-                    # remove "ipsets.bulkdeny" magic words from keys and add rule and priority
-                    ipset_name = ipset_name.gsub("ipsets.bulkdeny.", "") + "_d_#{priority}"
-                    unless ipsetsGroupedByRuleAndPriority[ipset_name]
-                        ipsetsGroupedByRuleAndPriority[ipset_name] = []
+                
+                    if !ips.nil? && !ips.empty?              
+                    
+                        # remove "ipsets.bulkdeny" magic words from keys and add rule and priority
+                        ipset_name = ipset_name.gsub("ipsets.bulkdeny.", "") + "_d_#{priority}"
+                        unless ipsetsGroupedByRuleAndPriority[ipset_name]
+                            ipsetsGroupedByRuleAndPriority[ipset_name] = []
+                        end
+                        ipsetsGroupedByRuleAndPriority[ipset_name] = ips
+                    
                     end
-                    ipsetsGroupedByRuleAndPriority[ipset_name] = ips
                 end
 
             end
