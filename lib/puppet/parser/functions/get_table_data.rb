@@ -25,36 +25,36 @@ module Puppet::Parser::Functions
 
             ipsets.each do |ipset_name, ipset_value| 
 
-                # remove "ipsets." magic words from keys
-                nameReplaced = ipset_name.gsub("ipsets.", "")
+                if ipset_name.start_with("ipsets")?
                 
-                if !ipset_value.nil?
+                    # remove "ipsets." magic words from keys
+                    nameReplaced = ipset_name.gsub("ipsets.", "")
                     
-                    # needed to exclude tenant-scoped settings which are actually an array
-                    if ipset_value.is_a?(Hash)
-
-                        if validate_cidr(ip)
-
-                            ipset_value.each do |ip, details|  
-                                
+                    if !ipset_value.nil?
+                        
+                        ipset_value.each do |ip, details|  
+                        
+                            if validate_cidr(ip)
+    
                                 if details["rule"] == "accept" || details["rule"] == "drop" 
                                     # construct the ipset name (e.g savagaming_accept_888 or savagaming_drop_045)
                                     ipset_name = nameReplaced + "_" + details["rule"][0] + "_" + details["priority"]
-                                    
+    
                                     unless ipsetsGroupedByRuleAndPriority[ipset_name]
                                         ipsetsGroupedByRuleAndPriority[ipset_name] = []
                                     end
-
+    
                                     ipsetsGroupedByRuleAndPriority[ipset_name] << ip 
                                 else
-                                    p "Ipset #{ipset_name} has ip defined with rule that is not either accept or drop. Skipping its processing.."
+                                    p "Ipset #{ipset_name} has ip defined with rule that is not either 'accept' or 'drop'. It is '#{details["rule"]}'. Skipping its processing.."
                                 end
-
+                            else
+                                p "Ipset #{ipset_name} has an invalid IP (#{ip}) as key. Skipping its processing.."   
                             end
-                        else
-                            p "Ipset #{ipset_name} has an invalid IP (#{ip}) as key. Skipping its processing.."   
                         end
                     end
+                else
+                    p "There is an Ipset with a wrong name that doesn't start with 'ipsets*'. This may be due to additional tenant-scoping. Skipping its processing"
                 end
             end
 
