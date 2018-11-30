@@ -36,14 +36,18 @@ module Puppet::Parser::Functions
                 bulkdenyIpsets.each do |ipset_name, ips|
                 
                     if !ips.nil? && !ips.empty?              
-                    
-                        # remove "ipsets.bulkdeny" magic words from keys and add rule and priority
-                        ipset_name = ipset_name.gsub("ipsets.bulkdeny.", "") + "_d_#{priority}"
-                        unless ipsetsGroupedByRuleAndPriority[ipset_name]
-                            ipsetsGroupedByRuleAndPriority[ipset_name] = []
+                        
+                        if ips.all? {|ip| validate_cidr(ip)}
+                        
+                            # remove "ipsets.bulkdeny" magic words from keys and add rule and priority
+                            ipset_name = ipset_name.gsub("ipsets.bulkdeny.", "") + "_d_#{priority}"
+                            unless ipsetsGroupedByRuleAndPriority[ipset_name]
+                                ipsetsGroupedByRuleAndPriority[ipset_name] = []
+                            end
+                            ipsetsGroupedByRuleAndPriority[ipset_name] = ips
+                        else
+                            p "Ipset #{ipset_name} has an invalid IP in its values. Skipping its processing.."   
                         end
-                        ipsetsGroupedByRuleAndPriority[ipset_name] = ips
-                    
                     end
                 end
 
