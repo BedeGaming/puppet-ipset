@@ -25,7 +25,7 @@ module Puppet::Parser::Functions
 
             ipsets.each do |ipset_name, ipset_value| 
 
-                if ipset_name.start_with("ipsets")?
+                if ipset_name.start_with?("ipsets")
                 
                     # remove "ipsets." magic words from keys
                     nameReplaced = ipset_name.gsub("ipsets.", "")
