@@ -14,11 +14,11 @@ module Puppet::Parser::Functions
         response = Net::HTTP.get_response(uri)
         
         if response.code === "200"
-            
+        
             bundlesList = JSON.parse(response.body)  
             
             ipsetsGroupedByRuleAndPriority = {}
-
+    
             # get each bundle and load the ips
             bundlesList.each do |bundlepath|
                 bundlekey = bundlepath.split("/").last()
@@ -34,11 +34,11 @@ module Puppet::Parser::Functions
                 bulkdenyIpsets = JSON.parse(responseBodyDecoded)  
                 
                 bulkdenyIpsets.each do |ipset_name, ips|
-                
-                    if !ips.nil? && !ips.empty?              
+                    
+                    if !ips.nil? && !ips.empty?
                         
-                        if ips.all? {|ip| validate_cidr(ip)}
-                        
+                        if ips.all? {|ip| function_validate_cidr([ip])}
+    
                             # remove "ipsets.bulkdeny" magic words from keys and add rule and priority
                             ipset_name = ipset_name.gsub("ipsets.bulkdeny.", "") + "_d_#{priority}"
                             unless ipsetsGroupedByRuleAndPriority[ipset_name]
@@ -48,18 +48,20 @@ module Puppet::Parser::Functions
                         else
                             p "Ipset #{ipset_name} has an invalid IP in its values. Skipping its processing.."   
                         end
+                    else 
+                        p "Ipset #{ipset_name} is empty. Skipping its processing.."   
                     end
                 end
-
+    
             end
             
             ipsetsGroupedByRuleAndPriority
-
+    
         elsif response.code === "404"
             # drop a message to the logs if no bulkdeny bundles has been found
             # that's non-breaking
             p "No bulk deny bundles with prefix (#{prefix}) in Consul. This might be expected."
-
+    
             # return empty hash
             {}
         else
