@@ -34,7 +34,7 @@ module Puppet::Parser::Functions
                         
                         ipset_value.each do |ip, details|  
                         
-                            if validate_cidr(ip)
+                            if function_validate_cidr([ip])
     
                                 if details["rule"] == "accept" || details["rule"] == "drop" 
                                     # construct the ipset name (e.g savagaming_accept_888 or savagaming_drop_045)
