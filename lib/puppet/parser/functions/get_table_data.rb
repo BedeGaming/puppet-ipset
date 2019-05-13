@@ -33,7 +33,10 @@ module Puppet::Parser::Functions
                 if !ipset_value.nil?
 
                     ipset_value.each do |ip, details|  
-                    
+                        
+                        # removes leading and trailing whitespaces for resilience
+                        ip = ip.strip
+                        
                         if function_validate_cidr([ip])
 
                             if details["rule"] == "accept" || details["rule"] == "drop" 
