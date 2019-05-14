@@ -60,7 +60,7 @@ module Puppet::Parser::Functions
         elsif response.code === "404"
             # drop a message to the logs if no bulkdeny bundles has been found
             # that's non-breaking
-            info("testsavadebug: No bulk deny bundles with prefix (#{prefix}) in Consul. This might be expected.")
+            info("No bulk deny bundles with prefix (#{prefix}) in Consul. This might be expected.")
     
             # return empty hash
             {}

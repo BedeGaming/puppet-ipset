@@ -66,7 +66,7 @@ module Puppet::Parser::Functions
     elsif response.code === "404"
         # drop a message to the logs if no bundle has been found
         # that's non-breaking and expected for most roles
-        info("testsavainfo: No bundle with ipsets (#{bundle}) in Consul. This might be expected.")
+        info("No bundle with ipsets (#{bundle}) in Consul. This might be expected.")
 
         # return empty hash
         {}
