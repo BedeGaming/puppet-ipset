@@ -46,10 +46,10 @@ module Puppet::Parser::Functions
                             end
                             ipsetsGroupedByRuleAndPriority[ipset_name] = ips
                         else
-                            p "Ipset #{ipset_name} has an invalid IP in its values. Skipping its processing.."   
+                            info("Ipset #{ipset_name} has an invalid IP in its values. Skipping its processing..")
                         end
                     else 
-                        p "Ipset #{ipset_name} is empty. Skipping its processing.."   
+                        info("Ipset #{ipset_name} is empty. Skipping its processing..")
                     end
                 end
     
@@ -60,7 +60,7 @@ module Puppet::Parser::Functions
         elsif response.code === "404"
             # drop a message to the logs if no bulkdeny bundles has been found
             # that's non-breaking
-            p "No bulk deny bundles with prefix (#{prefix}) in Consul. This might be expected."
+            info("No bulk deny bundles with prefix (#{prefix}) in Consul. This might be expected.")
     
             # return empty hash
             {}

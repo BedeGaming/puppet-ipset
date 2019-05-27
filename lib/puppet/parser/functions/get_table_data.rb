@@ -33,7 +33,10 @@ module Puppet::Parser::Functions
                 if !ipset_value.nil?
 
                     ipset_value.each do |ip, details|  
-                    
+                        
+                        # removes leading and trailing whitespaces for resilience
+                        ip = ip.strip
+                        
                         if function_validate_cidr([ip])
 
                             if details["rule"] == "accept" || details["rule"] == "drop" 
@@ -46,15 +49,15 @@ module Puppet::Parser::Functions
 
                                 ipsetsGroupedByRuleAndPriority[ipset_name] << ip 
                             else
-                                p "Ipset #{ipset_name} has ip defined with rule that is not either 'accept' or 'drop'. It is '#{details["rule"]}'. Skipping its processing.."
+                                info("Ipset #{ipset_name} has ip defined with rule that is not either 'accept' or 'drop'. It is '#{details["rule"]}'. Skipping its processing..")
                             end
                         else
-                            p "Ipset #{ipset_name} has an invalid IP (#{ip}) as key. Skipping its processing.."   
+                            info("Ipset #{ipset_name} has an invalid IP (#{ip}) as key. Skipping its processing..")
                         end
                     end
                 end
             else
-                p "There is an Ipset with a wrong name that doesn't start with 'ipsets*'. This may be due to additional tenant-scoping. Skipping its processing"
+                info("There is an Ipset with a wrong name that doesn't start with 'ipsets*'. This may be due to additional tenant-scoping. Skipping its processing")
             end
         end
 
@@ -63,7 +66,7 @@ module Puppet::Parser::Functions
     elsif response.code === "404"
         # drop a message to the logs if no bundle has been found
         # that's non-breaking and expected for most roles
-        p "No bundle with ipsets (#{bundle}) in Consul. This might be expected."
+        info("No bundle with ipsets (#{bundle}) in Consul. This might be expected.")
 
         # return empty hash
         {}
